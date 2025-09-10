@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-
 import { Ionicons } from '@expo/vector-icons';
 
 interface ButtonProps {
-  title: string;
+  title?: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
   size?: 'small' | 'medium' | 'large';
@@ -71,12 +71,17 @@ export default function Button({
     const iconSize = size === 'small' ? 16 : size === 'large' ? 24 : 20;
     const iconColor = disabled ? '#999' : variant === 'primary' ? 'white' : '#2D1B69';
     
+    // For icon-only buttons, don't add margins
+    const iconStyle = title ? 
+      (iconPosition === 'right' ? styles.iconRight : styles.iconLeft) : 
+      styles.iconOnly;
+    
     return (
       <Ionicons 
         name={icon} 
         size={iconSize} 
         color={iconColor}
-        style={iconPosition === 'right' ? styles.iconRight : styles.iconLeft}
+        style={iconStyle}
       />
     );
   };
@@ -88,9 +93,15 @@ export default function Button({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      {icon && iconPosition === 'left' && renderIcon()}
-      <Text style={[getTextStyle(), { flex: 1 }]}>{title}</Text>
-      {icon && iconPosition === 'right' && renderIcon()}
+      {title ? (
+        <>
+          {icon && iconPosition === 'left' && renderIcon()}
+          <Text style={[getTextStyle(), { flex: 1 }]}>{title}</Text>
+          {icon && iconPosition === 'right' && renderIcon()}
+        </>
+      ) : (
+        renderIcon()
+      )}
     </TouchableOpacity>
   );
 }
@@ -162,22 +173,22 @@ const styles = StyleSheet.create({
   
   // Text variant styles
   primaryText: {
-    color: 'white',
+    color: 'black',
   },
   secondaryText: {
-    color: 'white',
+    color: 'black',
   },
   dangerText: {
-    color: 'white',
+    color: 'black',
   },
   successText: {
-    color: 'white',
+    color: 'black',
   },
   warningText: {
     color: '#2D1B69',
   },
   infoText: {
-    color: 'white',
+    color: 'black',
   },
   
   // Text size styles
@@ -192,7 +203,7 @@ const styles = StyleSheet.create({
   },
   
   disabledText: {
-    color: '#999',
+    color: '#666',
   },
   
   // Icon styles
@@ -201,5 +212,8 @@ const styles = StyleSheet.create({
   },
   iconRight: {
     marginLeft: 8,
+  },
+  iconOnly: {
+    // No margins for icon-only buttons to ensure perfect centering
   },
 });

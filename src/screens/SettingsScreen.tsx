@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     fontFamily: 'PoiretOne_400Regular',
   },
   placeholder: {
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     marginBottom: 15,
     fontFamily: 'PoiretOne_400Regular',
   },
@@ -218,13 +218,13 @@ const styles = StyleSheet.create({
   settingTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#000',
     marginBottom: 4,
     fontFamily: 'PoiretOne_400Regular',
   },
   settingDescription: {
     fontSize: 14,
-    color: '#666',
+    color: '#000',
     fontFamily: 'PoiretOne_400Regular',
   },
   dangerButton: {
@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   footerText: {
-    color: 'white',
-    fontSize: 12,
+    color: 'black',
+    fontSize: 14,
     fontFamily: 'PoiretOne_400Regular',
   },
 });

@@ -10,6 +10,7 @@ import 'react-native-gesture-handler';
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import PlayerStatsScreen from './src/screens/PlayerStatsScreen';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,10 @@ export default function App() {
           <Stack.Screen 
             name="Settings" 
             component={SettingsScreen}
+          />
+          <Stack.Screen 
+            name="PlayerStats" 
+            component={PlayerStatsScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

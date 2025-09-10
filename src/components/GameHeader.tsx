@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { formatTime } from '../utils/sudokuLogic';
 import Button from './Button';
+import Avatar from './Avatar';
 
 interface GameHeaderProps {
   elapsedTime: number;
@@ -11,9 +12,11 @@ interface GameHeaderProps {
   mistakes: number;
   onHintPress: () => void;
   onMenuPress: () => void;
+  onAvatarPress: () => void;
   showTimer: boolean;
   showHints: boolean;
   isComplete: boolean;
+  currentUser?: any;
 }
 
 export default function GameHeader({
@@ -22,9 +25,11 @@ export default function GameHeader({
   mistakes,
   onHintPress,
   onMenuPress,
+  onAvatarPress,
   showTimer,
   showHints,
-  isComplete
+  isComplete,
+  currentUser
 }: GameHeaderProps) {
   return (
     <LinearGradient
@@ -33,11 +38,13 @@ export default function GameHeader({
     >
       {/* Top header with profile and close button */}
       <View style={styles.topHeader}>
-        <View style={styles.profileContainer}>
-          <View style={styles.profilePicture}>
-            <Ionicons name="person" size={20} color="white" />
-          </View>
-        </View>
+        <Avatar
+          name={currentUser?.user?.name || 'Player'}
+          avatar={currentUser?.user?.avatar || 'person'}
+          size="small"
+          showName={false}
+          onPress={onAvatarPress}
+        />
         
         <Text style={styles.difficultyText}>Easy</Text>
         
@@ -83,20 +90,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 15,
   },
-  profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profilePicture: {
-    width: 35,
-    height: 35,
-    borderRadius: 17.5,
-    backgroundColor: '#4A4A4A',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   difficultyText: {
-    color: 'white',
+    color: 'black',
     fontSize: 18,
     fontWeight: '600',
     fontFamily: 'PoiretOne_400Regular',
@@ -122,13 +117,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    color: 'white',
-    fontSize: 12,
+    color: 'black',
+    fontSize: 14,
     marginBottom: 2,
     fontFamily: 'PoiretOne_400Regular',
   },
   statValue: {
-    color: 'white',
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: 'PoiretOne_400Regular',

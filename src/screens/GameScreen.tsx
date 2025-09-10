@@ -14,6 +14,7 @@ export default function GameScreen({ navigation }: GameScreenProps) {
   const {
     gameState,
     settings,
+    currentUser,
     setCellValue,
     clearCell,
     toggleNotesMode,
@@ -42,16 +43,18 @@ export default function GameScreen({ navigation }: GameScreenProps) {
   // Show completion alert
   useEffect(() => {
     if (gameState.isComplete) {
+      const timeString = `${Math.floor(gameState.elapsedTime / 60)}:${(gameState.elapsedTime % 60).toString().padStart(2, '0')}`;
       Alert.alert(
         'Congratulations!',
-        `You solved the ${gameState.difficulty} puzzle in ${Math.floor(gameState.elapsedTime / 60)}:${(gameState.elapsedTime % 60).toString().padStart(2, '0')}!`,
+        `${currentUser?.user?.name || 'Player'}, you solved the ${gameState.difficulty} puzzle in ${timeString}!`,
         [
           { text: 'New Game', onPress: () => navigation.navigate('Home') },
+          { text: 'View Stats', onPress: () => navigation.navigate('PlayerStats') },
           { text: 'Continue', style: 'cancel' },
         ]
       );
     }
-  }, [gameState.isComplete, gameState.difficulty, gameState.elapsedTime, navigation]);
+  }, [gameState.isComplete, gameState.difficulty, gameState.elapsedTime, currentUser, navigation]);
 
   const handleCellPress = (row: number, col: number) => {
     if (gameState.board[row][col].isGiven) return;
@@ -100,6 +103,10 @@ export default function GameScreen({ navigation }: GameScreenProps) {
     );
   };
 
+  const handleAvatarPress = () => {
+    navigation.navigate('PlayerStats');
+  };
+
   return (
     <LinearGradient
       colors={['#6F4E6B', '#9C5C74']}
@@ -111,9 +118,11 @@ export default function GameScreen({ navigation }: GameScreenProps) {
         mistakes={gameState.mistakes}
         onHintPress={handleHintPress}
         onMenuPress={handleMenuPress}
+        onAvatarPress={handleAvatarPress}
         showTimer={settings.showTimer}
         showHints={settings.showHints}
         isComplete={gameState.isComplete}
+        currentUser={currentUser}
       />
 
       <View style={styles.gameContainer}>

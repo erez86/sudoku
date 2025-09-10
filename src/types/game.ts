@@ -40,6 +40,37 @@ export interface PuzzleData {
   difficulty: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  avatar: string;
+  createdAt: number;
+  lastPlayed: number;
+}
+
+export interface UserStats {
+  totalGamesPlayed: number;
+  totalTimePlayed: number; // in seconds
+  gamesByDifficulty: {
+    [difficulty: string]: {
+      gamesPlayed: number;
+      totalTime: number;
+      bestTime: number;
+      averageTime: number;
+    };
+  };
+  bestTimes: {
+    [difficulty: string]: number;
+  };
+  totalHintsUsed: number;
+  totalMistakes: number;
+}
+
+export interface UserData {
+  user: User;
+  stats: UserStats;
+}
+
 export type GameAction = 
   | { type: 'SET_CELL_VALUE'; row: number; col: number; value: number }
   | { type: 'CLEAR_CELL'; row: number; col: number }

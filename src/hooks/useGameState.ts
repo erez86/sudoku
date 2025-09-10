@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useReducer } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { generatePuzzle, DIFFICULTY_LEVELS, isBoardSolved, isBoardValid, createBoardFromPuzzle, checkCellConflicts } from '../utils/sudokuLogic';
 import { GameState, GameSettings, DifficultyLevel, Cell, GameAction } from '../types/game';
+import { useUserManagement } from './useUserManagement';
 
 const GAME_STATE_KEY = 'sudoku_game_state';
 const SETTINGS_KEY = 'sudoku_settings';
@@ -176,6 +177,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 export function useGameState() {
   const [gameState, dispatch] = useReducer(gameReducer, initialGameState);
   const [settings, setSettings] = useState<GameSettings>(initialSettings);
+  const { currentUser, recordGameCompletion, isLoading: userLoading } = useUserManagement();
 
   // Load game state and settings on mount
   useEffect(() => {
@@ -199,6 +201,18 @@ export function useGameState() {
       return () => clearInterval(interval);
     }
   }, [gameState.isComplete, settings.showTimer]);
+
+  // Record game completion in user stats
+  useEffect(() => {
+    if (gameState.isComplete && currentUser) {
+      recordGameCompletion(
+        gameState.elapsedTime,
+        gameState.difficulty,
+        gameState.hintsUsed,
+        gameState.mistakes
+      );
+    }
+  }, [gameState.isComplete, gameState.elapsedTime, gameState.difficulty, gameState.hintsUsed, gameState.mistakes, currentUser, recordGameCompletion]);
 
   const loadGameState = async (): Promise<void> => {
     try {
@@ -274,6 +288,8 @@ export function useGameState() {
   return {
     gameState,
     settings,
+    currentUser,
+    userLoading,
     startNewGame,
     setCellValue,
     clearCell,

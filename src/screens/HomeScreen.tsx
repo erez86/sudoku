@@ -5,13 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useGameState } from '../hooks/useGameState';
 import { DIFFICULTY_LEVELS } from '../utils/sudokuLogic';
 import Button from '../components/Button';
+import Avatar from '../components/Avatar';
 
 interface HomeScreenProps {
   navigation: any;
 }
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
-  const { gameState, startNewGame } = useGameState();
+  const { gameState, startNewGame, currentUser, userLoading } = useGameState();
 
   const handleNewGame = (difficulty: string) => {
     startNewGame(difficulty);
@@ -30,7 +31,22 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     navigation.navigate('Settings');
   };
 
+  const handleAvatarPress = () => {
+    navigation.navigate('PlayerStats');
+  };
+
   const hasGameInProgress = gameState.board.some(row => row.some(cell => cell.value !== 0));
+
+  // Show loading state while user data is being loaded
+  if (userLoading || !currentUser) {
+    return (
+      <LinearGradient colors={['#6F4E6B', '#9C5C74']} style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </LinearGradient>
+    );
+  }
 
   return (
     <LinearGradient
@@ -39,12 +55,13 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     >
       {/* Header with profile picture and name */}
       <View style={styles.header}>
-        <View style={styles.profileContainer}>
-          <View style={styles.profilePicture}>
-            <Ionicons name="person" size={24} color="white" />
-          </View>
-          <Text style={styles.profileName}>Jack Sparrow</Text>
-        </View>
+        <Avatar
+          key={currentUser?.user?.id || 'default'}
+          name={currentUser?.user?.name || 'Player'}
+          avatar={currentUser?.user?.avatar || 'person'}
+          size="medium"
+          onPress={handleAvatarPress}
+        />
       </View>
 
       {/* Main title */}
@@ -102,29 +119,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: 'black',
+    fontSize: 18,
+    fontFamily: 'PoiretOne_400Regular',
+  },
   header: {
     paddingTop: 60,
     paddingLeft: 20,
     paddingBottom: 20,
-  },
-  profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profilePicture: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#4A4A4A',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  profileName: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '500',
-    fontFamily: 'PoiretOne_400Regular',
   },
   titleContainer: {
     alignItems: 'center',
@@ -133,7 +141,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     letterSpacing: 2,
     fontFamily: 'PoiretOne_400Regular',
   },
