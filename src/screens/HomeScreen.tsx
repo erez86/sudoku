@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, StyleSheet, Alert, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameState } from '../hooks/useGameState';
+import { useModal } from '../hooks/useModal';
 import { DIFFICULTY_LEVELS } from '../utils/sudokuLogic';
 import Button from '../components/Button';
 import Avatar from '../components/Avatar';
+import DifficultyModal from '../components/DifficultyModal';
+import CustomModal from '../components/Modal';
 
 interface HomeScreenProps {
   navigation: any;
@@ -13,17 +16,23 @@ interface HomeScreenProps {
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const { gameState, startNewGame, currentUser, userLoading } = useGameState();
+  const [showDifficultyModal, setShowDifficultyModal] = useState(false);
+  const { modalState, hideModal, showAlert } = useModal();
 
   const handleNewGame = (difficulty: string) => {
     startNewGame(difficulty);
     navigation.navigate('Game');
   };
 
+  const handleStartGamePress = () => {
+    setShowDifficultyModal(true);
+  };
+
   const handleContinueGame = () => {
     if (gameState.board.some(row => row.some(cell => cell.value !== 0))) {
       navigation.navigate('Game');
     } else {
-      Alert.alert('No Game in Progress', 'Start a new game to begin playing!');
+      showAlert('No Game in Progress', 'Start a new game to begin playing!');
     }
   };
 
@@ -73,7 +82,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       <View style={styles.menuContainer}>
         <Button
           title="START GAME"
-          onPress={() => handleNewGame('Easy')}
+          onPress={handleStartGamePress}
           variant="primary"
           size="large"
           icon="play"
@@ -111,6 +120,20 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
           style={styles.menuButton}
         />
       </View>
+
+      <DifficultyModal
+        visible={showDifficultyModal}
+        onClose={() => setShowDifficultyModal(false)}
+        onSelectDifficulty={handleNewGame}
+      />
+
+      <CustomModal
+        visible={modalState.visible}
+        title={modalState.title}
+        message={modalState.message}
+        buttons={modalState.buttons}
+        onClose={hideModal}
+      />
     </LinearGradient>
   );
 }

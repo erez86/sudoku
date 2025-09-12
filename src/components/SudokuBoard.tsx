@@ -19,6 +19,7 @@ export default function SudokuBoard({
   onCellPress, 
   highlightConflicts 
 }: SudokuBoardProps) {
+  
   const renderCell = (cell: Cell, row: number, col: number) => {
     const isSelected = selectedCell?.row === row && selectedCell?.col === col;
     const isInSameRow = selectedCell?.row === row;
@@ -27,7 +28,11 @@ export default function SudokuBoard({
       Math.floor(selectedCell?.row || 0 / 3) === Math.floor(row / 3) &&
       Math.floor(selectedCell?.col || 0 / 3) === Math.floor(col / 3);
     
-    const isHighlighted = isSelected || isInSameRow || isInSameCol || isInSameBox;
+    const isHighlighted = isSelected || isInSameRow || isInSameCol;
+    
+    // Determine border styles for 3x3 grid separation
+    const isBoxBottom = (row + 1) % 3 === 0 && row < 8;
+    const isBoxRight = (col + 1) % 3 === 0 && col < 8;
     
     return (
       <TouchableOpacity
@@ -37,12 +42,11 @@ export default function SudokuBoard({
           {
             width: CELL_SIZE,
             height: CELL_SIZE,
-            backgroundColor: isSelected ? '#4A4A4A' : isHighlighted ? '#3D2A7A' : 'white',
-            borderColor: isSelected ? '#666' : '#E0E0E0',
+            backgroundColor: isSelected ? '#E3F2FD' : isHighlighted ? '#F5F5F5' : 'white',
+            borderRightWidth: isBoxRight ? 2 : 1,
+            borderBottomWidth: isBoxBottom ? 2 : 1,
+            borderColor: '#CCCCCC',
           },
-          // Thicker borders for 3x3 boxes
-          (row + 1) % 3 === 0 && styles.thickBorderBottom,
-          (col + 1) % 3 === 0 && styles.thickBorderRight,
           // Highlight conflicts
           highlightConflicts && cell.hasConflict && styles.conflictCell,
         ]}
@@ -53,7 +57,7 @@ export default function SudokuBoard({
             style={[
               styles.cellText,
               {
-                color: cell.isGiven ? '#000' : '#2D1B69',
+                color: cell.isGiven ? '#000' : '#333',
                 fontWeight: cell.isGiven ? 'bold' : 'normal',
               },
             ]}
@@ -91,27 +95,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    
   },
   board: {
-    borderWidth: 2,
-    borderColor: '#2D1B69',
-    backgroundColor: '#2D1B69',
-    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: 'white',
   },
   row: {
     flexDirection: 'row',
   },
   cell: {
-    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
-  },
-  thickBorderBottom: {
-    borderBottomWidth: 2,
-  },
-  thickBorderRight: {
-    borderRightWidth: 2,
   },
   conflictCell: {
     backgroundColor: '#FFCDD2',
@@ -119,7 +115,7 @@ const styles = StyleSheet.create({
   cellText: {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'PoiretOne_600Regular',
   },
   notesContainer: {
     flexDirection: 'row',

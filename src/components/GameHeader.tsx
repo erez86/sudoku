@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { formatTime } from '../utils/sudokuLogic';
 import Button from './Button';
@@ -32,10 +31,7 @@ export default function GameHeader({
   currentUser
 }: GameHeaderProps) {
   return (
-    <LinearGradient
-      colors={['#6F4E6B', '#9C5C74']}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       {/* Top header with profile and close button */}
       <View style={styles.topHeader}>
         <Avatar
@@ -74,14 +70,17 @@ export default function GameHeader({
           <Text style={styles.statValue}>{hintsUsed}</Text>
         </View>
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     paddingTop: 50,
     paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
   topHeader: {
     flexDirection: 'row',
@@ -92,9 +91,9 @@ const styles = StyleSheet.create({
   },
   difficultyText: {
     color: 'black',
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '600',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'PoiretOne_600Regular',
   },
   closeButton: {
     width: 35,
@@ -107,11 +106,13 @@ const styles = StyleSheet.create({
   statsBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#3D2A7A', // Slightly lighter purple
+    backgroundColor: '#F5F5F5', // Light gray background
     marginHorizontal: 20,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   statSection: {
     alignItems: 'center',
@@ -120,12 +121,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 14,
     marginBottom: 2,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'PoiretOne_600Regular',
   },
   statValue: {
     color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'PoiretOne_600Regular',
   },
 });

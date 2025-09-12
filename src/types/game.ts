@@ -18,6 +18,7 @@ export interface GameState {
   isNotesMode: boolean;
   hintsUsed: number;
   mistakes: number;
+  history: Cell[][][];
 }
 
 export interface DifficultyLevel {
@@ -81,4 +82,6 @@ export type GameAction =
   | { type: 'START_NEW_GAME'; difficulty: DifficultyLevel }
   | { type: 'RESET_GAME' }
   | { type: 'UPDATE_TIMER' }
-  | { type: 'GAME_COMPLETE' };
+  | { type: 'GAME_COMPLETE' }
+  | { type: 'UNDO' }
+  | { type: 'AUTO_FILL' };

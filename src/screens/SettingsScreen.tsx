@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Switch, Alert } from 'react-native';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameState } from '../hooks/useGameState';
+import { useModal } from '../hooks/useModal';
 import { GameSettings } from '../types/game';
 import Button from '../components/Button';
+import CustomModal from '../components/Modal';
 
 interface SettingsScreenProps {
   navigation: any;
@@ -12,6 +14,7 @@ interface SettingsScreenProps {
 
 export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   const { settings, saveSettings, clearGame } = useGameState();
+  const { modalState, hideModal, showDestructiveConfirm, showAlert } = useModal();
 
   const handleSettingChange = async (key: keyof GameSettings, value: boolean) => {
     const newSettings = { ...settings, [key]: value };
@@ -19,20 +22,13 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   };
 
   const handleClearData = () => {
-    Alert.alert(
+    showDestructiveConfirm(
       'Clear All Data',
       'This will delete all saved games and settings. This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: () => {
-            clearGame();
-            Alert.alert('Success', 'All data has been cleared.');
-          },
-        },
-      ]
+      () => {
+        clearGame();
+        showAlert('Success', 'All data has been cleared.');
+      }
     );
   };
 
@@ -148,6 +144,14 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
       <View style={styles.footer}>
         <Text style={styles.footerText}>Sudoku Mobile v1.0.0</Text>
       </View>
+
+      <CustomModal
+        visible={modalState.visible}
+        title={modalState.title}
+        message={modalState.message}
+        buttons={modalState.buttons}
+        onClose={hideModal}
+      />
     </LinearGradient>
   );
 }
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   settingTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#000',
     marginBottom: 4,

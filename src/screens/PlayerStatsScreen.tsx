@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
   Modal,
   TextInput,
   Platform,
@@ -13,8 +12,10 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useUserManagement } from '../hooks/useUserManagement';
+import { useModal } from '../hooks/useModal';
 import { formatTime } from '../utils/sudokuLogic';
 import Button from '../components/Button';
+import CustomModal from '../components/Modal';
 
 interface PlayerStatsScreenProps {
   navigation: any;
@@ -33,6 +34,7 @@ export default function PlayerStatsScreen({ navigation }: PlayerStatsScreenProps
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [newUserName, setNewUserName] = useState('');
   const [newUserAvatar, setNewUserAvatar] = useState('person');
+  const { modalState, hideModal, showAlert, showDestructiveConfirm } = useModal();
 
   const avatarOptions = [
     'person', 'person-circle', 'happy', 'star', 'heart', 'diamond',
@@ -41,7 +43,7 @@ export default function PlayerStatsScreen({ navigation }: PlayerStatsScreenProps
 
   const handleAddUser = async () => {
     if (!newUserName.trim()) {
-      Alert.alert('Error', 'Please enter a name for the new user');
+      showAlert('Error', 'Please enter a name for the new user');
       return;
     }
 
@@ -50,45 +52,38 @@ export default function PlayerStatsScreen({ navigation }: PlayerStatsScreenProps
       setNewUserName('');
       setNewUserAvatar('person');
       setShowAddUserModal(false);
-      Alert.alert('Success', 'New user created successfully!');
+      showAlert('Success', 'New user created successfully!');
     } catch (error) {
-      Alert.alert('Error', 'Failed to create new user');
+      showAlert('Error', 'Failed to create new user');
     }
   };
 
   const handleSwitchUser = async (userId: string) => {
     try {
       await switchUser(userId);
-      Alert.alert('Success', 'User switched successfully!');
+      showAlert('Success', 'User switched successfully!');
     } catch (error) {
-      Alert.alert('Error', 'Failed to switch user');
+      showAlert('Error', 'Failed to switch user');
     }
   };
 
   const handleDeleteUser = async (userId: string, userName: string) => {
     if (users.length <= 1) {
-      Alert.alert('Error', 'Cannot delete the last user');
+      showAlert('Error', 'Cannot delete the last user');
       return;
     }
 
-    Alert.alert(
+    showDestructiveConfirm(
       'Delete User',
       `Are you sure you want to delete ${userName}? This action cannot be undone.`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteUser(userId);
-              Alert.alert('Success', 'User deleted successfully!');
-            } catch (error) {
-              Alert.alert('Error', 'Failed to delete user');
-            }
-          },
-        },
-      ]
+      async () => {
+        try {
+          await deleteUser(userId);
+          showAlert('Success', 'User deleted successfully!');
+        } catch (error) {
+          showAlert('Error', 'Failed to delete user');
+        }
+      }
     );
   };
 
@@ -297,6 +292,14 @@ export default function PlayerStatsScreen({ navigation }: PlayerStatsScreenProps
           </View>
         </View>
       </Modal>
+
+      <CustomModal
+        visible={modalState.visible}
+        title={modalState.title}
+        message={modalState.message}
+        buttons={modalState.buttons}
+        onClose={hideModal}
+      />
     </LinearGradient>
   );
 }

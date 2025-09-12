@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Alert, BackHandler } from 'react-native';
+import { View, StyleSheet, BackHandler } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useGameState } from '../hooks/useGameState';
+import { useModal } from '../hooks/useModal';
 import SudokuBoard from '../components/SudokuBoard';
 import NumberPad from '../components/NumberPad';
 import GameHeader from '../components/GameHeader';
+import CustomModal from '../components/Modal';
 
 interface GameScreenProps {
   navigation: any;
@@ -20,41 +22,43 @@ export default function GameScreen({ navigation }: GameScreenProps) {
     toggleNotesMode,
     setSelectedCell,
     getHint,
+    undo,
+    autoFill,
+    clearGame,
   } = useGameState();
+
+  const { modalState, hideModal, showAlert, showConfirm, showActionSheet } = useModal();
 
   // Handle back button
   useEffect(() => {
     const backAction = () => {
-      Alert.alert(
+      showConfirm(
         'Exit Game',
         'Are you sure you want to exit? Your progress will be saved.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Exit', onPress: () => navigation.goBack() },
-        ]
+        () => navigation.goBack()
       );
       return true;
     };
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => backHandler.remove();
-  }, [navigation]);
+  }, [navigation, showConfirm]);
 
   // Show completion alert
   useEffect(() => {
     if (gameState.isComplete) {
       const timeString = `${Math.floor(gameState.elapsedTime / 60)}:${(gameState.elapsedTime % 60).toString().padStart(2, '0')}`;
-      Alert.alert(
+      showActionSheet(
         'Congratulations!',
         `${currentUser?.user?.name || 'Player'}, you solved the ${gameState.difficulty} puzzle in ${timeString}!`,
         [
           { text: 'New Game', onPress: () => navigation.navigate('Home') },
           { text: 'View Stats', onPress: () => navigation.navigate('PlayerStats') },
-          { text: 'Continue', style: 'cancel' },
+          { text: 'Continue', onPress: () => {}, style: 'cancel' },
         ]
       );
     }
-  }, [gameState.isComplete, gameState.difficulty, gameState.elapsedTime, currentUser, navigation]);
+  }, [gameState.isComplete, gameState.difficulty, gameState.elapsedTime, currentUser, navigation, showActionSheet]);
 
   const handleCellPress = (row: number, col: number) => {
     if (gameState.board[row][col].isGiven) return;
@@ -77,28 +81,25 @@ export default function GameScreen({ navigation }: GameScreenProps) {
 
   const handleHintPress = () => {
     if (gameState.hintsUsed >= 3) {
-      Alert.alert('No More Hints', 'You have used all 3 hints for this game.');
+      showAlert('No More Hints', 'You have used all 3 hints for this game.');
       return;
     }
     
-    Alert.alert(
+    showConfirm(
       'Use Hint',
       'This will reveal one correct number. Continue?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Use Hint', onPress: getHint },
-      ]
+      getHint
     );
   };
 
   const handleMenuPress = () => {
-    Alert.alert(
+    showActionSheet(
       'Game Menu',
       'What would you like to do?',
       [
-        { text: 'Cancel', style: 'cancel' },
         { text: 'New Game', onPress: () => navigation.navigate('Home') },
         { text: 'Settings', onPress: () => navigation.navigate('Settings') },
+        { text: 'Cancel', onPress: () => {}, style: 'cancel' },
       ]
     );
   };
@@ -107,9 +108,25 @@ export default function GameScreen({ navigation }: GameScreenProps) {
     navigation.navigate('PlayerStats');
   };
 
+  const handleResetBoard = () => {
+    showConfirm(
+      'Reset Board',
+      'Are you sure you want to reset the board? This will clear all your progress.',
+      clearGame
+    );
+  };
+
+  const handleAutoFill = () => {
+    showConfirm(
+      'Auto Fill Board',
+      'This will fill in all remaining cells with the correct solution. Are you sure?',
+      autoFill
+    );
+  };
+
   return (
     <LinearGradient
-      colors={['#6F4E6B', '#9C5C74']}
+      colors={['#87CEEB', '#B0E0E6', '#E0F6FF']}
       style={styles.container}
     >
       <GameHeader
@@ -125,22 +142,31 @@ export default function GameScreen({ navigation }: GameScreenProps) {
         currentUser={currentUser}
       />
 
-      <View style={styles.gameContainer}>
-        <SudokuBoard
-          board={gameState.board}
-          selectedCell={gameState.selectedCell}
-          onCellPress={handleCellPress}
-          highlightConflicts={settings.highlightConflicts}
-        />
+      <SudokuBoard
+        board={gameState.board}
+        selectedCell={gameState.selectedCell}
+        onCellPress={handleCellPress}
+        highlightConflicts={settings.highlightConflicts}
+      />
 
-        <NumberPad
-          onNumberPress={handleNumberPress}
-          onClearPress={handleClearPress}
-          isNotesMode={gameState.isNotesMode}
-          onToggleNotes={toggleNotesMode}
-          disabled={gameState.isComplete}
-        />
-      </View>
+      <NumberPad
+        onNumberPress={handleNumberPress}
+        onClearPress={handleClearPress}
+        isNotesMode={gameState.isNotesMode}
+        onToggleNotes={toggleNotesMode}
+        onResetBoard={handleResetBoard}
+        onUndo={undo}
+        onAutoFill={handleAutoFill}
+        disabled={gameState.isComplete}
+      />
+
+      <CustomModal
+        visible={modalState.visible}
+        title={modalState.title}
+        message={modalState.message}
+        buttons={modalState.buttons}
+        onClose={hideModal}
+      />
     </LinearGradient>
   );
 }
@@ -151,6 +177,5 @@ const styles = StyleSheet.create({
   },
   gameContainer: {
     flex: 1,
-    justifyContent: 'space-between',
   },
 });

@@ -24,7 +24,8 @@ const initialGameState: GameState = {
   selectedCell: null,
   isNotesMode: false,
   hintsUsed: 0,
-  mistakes: 0
+  mistakes: 0,
+  history: []
 };
 
 const initialSettings: GameSettings = {
@@ -43,6 +44,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       
       const { row, col, value } = action;
       const newBoard = state.board.map(r => r.map(cell => ({ ...cell })));
+      
+      // Save current state to history before making changes
+      const currentBoard = state.board.map(r => r.map(cell => ({ ...cell })));
+      const newHistory = [...state.history, currentBoard].slice(-10); // Keep last 10 moves
+      
       if (state.isNotesMode) {
         // Toggle note
         const cellNotes = [...newBoard[row][col].notes];
@@ -67,6 +73,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         board: newBoard,
+        history: newHistory,
         isComplete,
         selectedCell: null,
         mistakes: value !== 0 && checkCellConflicts(newBoard, row, col) ? state.mistakes + 1 : state.mistakes
@@ -168,6 +175,46 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         isComplete: true
       };
+    
+    case 'UNDO': {
+      if (state.history.length === 0 || state.isComplete) return state;
+      
+      const previousBoard = state.history[state.history.length - 1];
+      const newHistory = state.history.slice(0, -1);
+      
+      return {
+        ...state,
+        board: previousBoard,
+        history: newHistory,
+        selectedCell: null
+      };
+    }
+    
+    case 'AUTO_FILL': {
+      if (state.isComplete) return state;
+      
+      const newBoard = state.board.map(r => r.map(cell => ({ ...cell })));
+      
+      // Fill all empty cells with the solution
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          if (newBoard[row][col].value === 0 && !newBoard[row][col].isGiven) {
+            newBoard[row][col].value = state.solution[row][col];
+            newBoard[row][col].hasConflict = false;
+            newBoard[row][col].notes = [];
+          }
+        }
+      }
+      
+      const isComplete = isBoardSolved(newBoard);
+      
+      return {
+        ...state,
+        board: newBoard,
+        isComplete,
+        selectedCell: null
+      };
+    }
     
     default:
       return state;
@@ -285,6 +332,14 @@ export function useGameState() {
     dispatch({ type: 'RESET_GAME' });
   }, []);
 
+  const undo = useCallback((): void => {
+    dispatch({ type: 'UNDO' });
+  }, []);
+
+  const autoFill = useCallback((): void => {
+    dispatch({ type: 'AUTO_FILL' });
+  }, []);
+
   return {
     gameState,
     settings,
@@ -297,6 +352,8 @@ export function useGameState() {
     setSelectedCell,
     getHint,
     clearGame,
+    undo,
+    autoFill,
     saveSettings
   };
 }
