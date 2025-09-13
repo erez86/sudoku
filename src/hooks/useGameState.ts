@@ -17,6 +17,14 @@ const initialGameState: GameState = {
     hasConflict: false
   }))),
   solution: Array(9).fill(null).map(() => Array(9).fill(0)),
+  originalPuzzle: Array(9).fill(null).map(() => Array(9).fill(null).map(() => ({
+    value: 0,
+    isGiven: false,
+    notes: [],
+    isSelected: false,
+    isHighlighted: false,
+    hasConflict: false
+  }))),
   difficulty: 'Medium',
   isComplete: false,
   startTime: Date.now(),
@@ -145,11 +153,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'START_NEW_GAME': {
       const { puzzle, solution } = generatePuzzle(action.difficulty);
       const board = createBoardFromPuzzle(puzzle);
+      const originalPuzzle = board.map(row => row.map(cell => ({ ...cell }))); // Deep copy
       
       return {
         ...state,
         board,
         solution,
+        originalPuzzle,
         difficulty: action.difficulty.name,
         isComplete: false,
         startTime: Date.now(),
@@ -157,12 +167,28 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         selectedCell: null,
         isNotesMode: false,
         hintsUsed: 0,
-        mistakes: 0
+        mistakes: 0,
+        history: []
       };
     }
     
-    case 'RESET_GAME':
-      return initialGameState;
+    case 'RESET_GAME': {
+      // Reset to original puzzle state, not initial empty state
+      const resetBoard = state.originalPuzzle.map(row => row.map(cell => ({ ...cell }))); // Deep copy
+      
+      return {
+        ...state,
+        board: resetBoard,
+        isComplete: false,
+        startTime: Date.now(),
+        elapsedTime: 0,
+        selectedCell: null,
+        isNotesMode: false,
+        hintsUsed: 0,
+        mistakes: 0,
+        history: []
+      };
+    }
     
     case 'UPDATE_TIMER':
       return {

@@ -52,7 +52,7 @@ export default function DifficultyModal({ visible, onClose, onSelectDifficulty }
                   size="large"
                   icon={difficulty.icon}
                   fullWidth
-                  style={[styles.difficultyButton, { backgroundColor: difficulty.color }]}
+                  style={[styles.difficultyButton, { backgroundColor: difficulty.color }] as any}
                 />
               ))}
             </View>

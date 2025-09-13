@@ -10,6 +10,7 @@ export interface Cell {
 export interface GameState {
   board: Cell[][];
   solution: number[][];
+  originalPuzzle: Cell[][];
   difficulty: string;
   isComplete: boolean;
   startTime: number;
