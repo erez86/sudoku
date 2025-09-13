@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, BackHandler, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameState } from '../hooks/useGameState';
@@ -17,7 +17,7 @@ interface HomeScreenProps {
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const { gameState, startNewGame, currentUser, userLoading } = useGameState();
   const [showDifficultyModal, setShowDifficultyModal] = useState(false);
-  const { modalState, hideModal, showAlert } = useModal();
+  const { modalState, hideModal, showAlert, showConfirm } = useModal();
 
   const handleNewGame = (difficulty: string) => {
     startNewGame(difficulty);
@@ -42,6 +42,25 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
   const handleAvatarPress = () => {
     navigation.navigate('PlayerStats');
+  };
+
+  const handleExitGame = () => {
+    showConfirm(
+      'Exit Game',
+      'Are you sure you want to exit the game?',
+      () => {
+        if (Platform.OS === 'android') {
+          BackHandler.exitApp();
+        } else {
+          // On iOS, we can't programmatically exit the app
+          // Show a message to the user
+          showAlert(
+            'Exit Game',
+            'Please use the home button or swipe up to exit the app.'
+          );
+        }
+      }
+    );
   };
 
   const hasGameInProgress = gameState.board.some(row => row.some(cell => cell.value !== 0));
@@ -112,7 +131,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
         <Button
           title="EXIT GAME"
-          onPress={() => {}}
+          onPress={handleExitGame}
           variant="info"
           size="large"
           icon="power"
