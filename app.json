@@ -38,6 +38,61 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Quicksand-Regular.ttf",
+            "./assets/fonts/Quicksand-Medium.ttf",
+            "./assets/fonts/Quicksand-SemiBold.ttf",
+            "./assets/fonts/Quicksand-Bold.ttf",
+            "./assets/fonts/Quicksand-Light.ttf"
+          ],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Quicksand",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/Quicksand-Light.ttf",
+                    "weight": 300,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Quicksand-Regular.ttf",
+                    "weight": 400,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Quicksand-Medium.ttf",
+                    "weight": 500,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Quicksand-SemiBold.ttf",
+                    "weight": 600,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Quicksand-Bold.ttf",
+                    "weight": 700,
+                    "style": "normal"
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "./assets/fonts/Quicksand-Light.ttf",
+              "./assets/fonts/Quicksand-Regular.ttf",
+              "./assets/fonts/Quicksand-Medium.ttf",
+              "./assets/fonts/Quicksand-SemiBold.ttf",
+              "./assets/fonts/Quicksand-Bold.ttf"
+            ]
+          }
+        }
       ]
     ],
     "experiments": {
