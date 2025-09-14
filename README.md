@@ -1,177 +1,50 @@
-# Sudoku Mobile App
+# Welcome to your Expo app 👋
 
-A beautiful and feature-rich Sudoku mobile app built with React Native, Expo, and TypeScript. The app stores all data locally on the device using AsyncStorage.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Features
+## Get started
 
-- **Three Difficulty Levels**: Easy, Medium, and Hard
-- **Smart Game Logic**: Complete Sudoku puzzle generation and validation
-- **Notes System**: Add pencil marks to cells for planning
-- **Hints**: Get up to 3 hints per game
-- **Timer**: Track your solving time
-- **Conflict Detection**: Visual highlighting of invalid moves
-- **Auto-Save**: Game progress is automatically saved
-- **Settings**: Customize your gaming experience
-- **Local Storage**: All data stored on device (no internet required)
+1. Install dependencies
 
-## Tech Stack
+   ```bash
+   npm install
+   ```
 
-- **React Native** with Expo
-- **TypeScript** for type safety
-- **React Navigation** for screen navigation
-- **AsyncStorage** for local data persistence
-- **EAS Build** for deployment
+2. Start the app
 
-## Getting Started
+   ```bash
+   npx expo start
+   ```
 
-### Prerequisites
+In the output, you'll find options to open the app in a
 
-- Node.js (v16 or later)
-- npm or yarn
-- Expo CLI
-- EAS CLI (for deployment)
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-### Installation
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd Sudoku
-```
+## Get a fresh project
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm start
-```
-
-4. Run on your device:
-   - Install Expo Go app on your phone
-   - Scan the QR code from the terminal
-   - Or use iOS Simulator/Android Emulator
-
-### Development Commands
+When you're ready, run:
 
 ```bash
-# Start development server
-npm start
-
-# Run on iOS simulator
-npm run ios
-
-# Run on Android emulator
-npm run android
-
-# Run on web browser
-npm run web
+npm run reset-project
 ```
 
-## Deployment with EAS
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-### Setup EAS
+## Learn more
 
-1. Install EAS CLI:
-```bash
-npm install -g @expo/eas-cli
-```
+To learn more about developing your project with Expo, look at the following resources:
 
-2. Login to your Expo account:
-```bash
-eas login
-```
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-3. Configure the project (already done):
-```bash
-eas init
-```
+## Join the community
 
-### Build for Production
+Join our community of developers creating universal apps.
 
-1. **Android APK (for testing):**
-```bash
-eas build --platform android --profile preview
-```
-
-2. **Android AAB (for Play Store):**
-```bash
-eas build --platform android --profile production
-```
-
-3. **iOS (for App Store):**
-```bash
-eas build --platform ios --profile production
-```
-
-### Submit to App Stores
-
-1. **Google Play Store:**
-```bash
-eas submit --platform android
-```
-
-2. **Apple App Store:**
-```bash
-eas submit --platform ios
-```
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── SudokuBoard.tsx  # Main game board component
-│   ├── NumberPad.tsx    # Number input pad
-│   └── GameHeader.tsx   # Game header with stats
-├── screens/            # App screens
-│   ├── HomeScreen.tsx   # Main menu screen
-│   ├── GameScreen.tsx   # Game play screen
-│   └── SettingsScreen.tsx # Settings screen
-├── hooks/              # Custom React hooks
-│   └── useGameState.ts  # Game state management
-├── types/              # TypeScript type definitions
-│   └── game.ts         # Game-related types
-└── utils/              # Utility functions
-    └── sudokuLogic.ts  # Sudoku game logic
-```
-
-## Game Features
-
-### Difficulty Levels
-- **Easy**: 40 cells removed (more given numbers)
-- **Medium**: 50 cells removed (balanced)
-- **Hard**: 60 cells removed (challenging)
-
-### Game Mechanics
-- **Notes Mode**: Toggle to add/remove pencil marks
-- **Hints**: Reveal correct numbers (limited to 3 per game)
-- **Conflict Detection**: Invalid moves are highlighted in red
-- **Auto-Save**: Progress saved automatically
-- **Timer**: Track solving time
-
-### Settings
-- Show/hide timer
-- Enable/disable hints
-- Toggle conflict highlighting
-- Auto-save preferences
-- Sound and vibration settings
-- Clear all data option
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-For issues and questions, please create an issue in the repository.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
