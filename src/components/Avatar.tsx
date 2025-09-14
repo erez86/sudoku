@@ -93,6 +93,6 @@ const styles = StyleSheet.create({
   profileName: {
     color: 'black',
     fontWeight: '500',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
 });

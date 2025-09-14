@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 22,
     fontWeight: '600',
-    fontFamily: 'PoiretOne_600Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   closeButton: {
     width: 35,
@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 14,
     marginBottom: 2,
-    fontFamily: 'PoiretOne_600Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   statValue: {
     color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_600Regular',
+    fontFamily: 'Homenaje-Regular',
   },
 });

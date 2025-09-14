@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   placeholder: {
     width: 40,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 15,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   settingItem: {
     flexDirection: 'row',
@@ -224,12 +224,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
     marginBottom: 4,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   settingDescription: {
     fontSize: 14,
     color: '#000',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   dangerButton: {
     marginTop: 10,
@@ -241,6 +241,6 @@ const styles = StyleSheet.create({
   footerText: {
     color: 'black',
     fontSize: 14,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
 });

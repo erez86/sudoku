@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 interface ModalButton {
   text: string;
   onPress: () => void;
-  style?: 'default' | 'cancel' | 'destructive';
+  style?: 'default' | 'cancel' | 'destructive' | 'secondary';
 }
 
 interface ModalState {
@@ -79,7 +79,7 @@ export function useModal() {
   const showActionSheet = useCallback((
     title: string, 
     message: string, 
-    actions: Array<{ text: string; onPress: () => void; style?: 'default' | 'cancel' | 'destructive' }>
+    actions: Array<{ text: string; onPress: () => void; style?: 'default' | 'cancel' | 'destructive' | 'secondary' }>
   ) => {
     showModal(title, message, actions);
   }, [showModal]);

@@ -5,18 +5,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts, PoiretOne_400Regular } from '@expo-google-fonts/poiret-one';
+import * as Font from 'expo-font';
 import 'react-native-gesture-handler';
 
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import PlayerStatsScreen from './src/screens/PlayerStatsScreen';
+import RulesScreen from './src/screens/RulesScreen';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     PoiretOne_400Regular,
+    'Homenaje-Regular': require('./assets/fonts/Homenaje-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -50,6 +53,10 @@ export default function App() {
           <Stack.Screen 
             name="PlayerStats" 
             component={PlayerStatsScreen}
+          />
+          <Stack.Screen 
+            name="Rules" 
+            component={RulesScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

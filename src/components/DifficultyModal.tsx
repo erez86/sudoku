@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: 'black',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   closeButton: {
     padding: 8,

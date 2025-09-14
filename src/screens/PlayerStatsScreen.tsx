@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   loadingText: {
     color: 'black',
     fontSize: 18,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   scrollView: {
     flex: 1,
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   addButton: {
     width: 40,
@@ -383,12 +383,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 22,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   userSubtext: {
     color: '#333',
     fontSize: 14,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -408,13 +408,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   statLabel: {
     color: '#333',
     fontSize: 14,
     marginTop: 5,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   difficultySection: {
     marginBottom: 20,
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 15,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   difficultyCard: {
     backgroundColor: '#3D2A7A',
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   difficultyStats: {
     flexDirection: 'row',
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
   difficultyStat: {
     color: '#333',
     fontSize: 14,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   switchUserSection: {
     paddingHorizontal: 20,
@@ -484,13 +484,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   userItemStats: {
     color: '#333',
     fontSize: 14,
     marginTop: 2,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   deleteButton: {
     position: 'absolute',
@@ -517,7 +517,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   textInput: {
     backgroundColor: '#f0f0f0',
@@ -526,13 +526,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     marginBottom: 20,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   avatarLabel: {
     color: 'black',
     fontSize: 16,
     marginBottom: 10,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   avatarGrid: {
     flexDirection: 'row',

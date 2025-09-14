@@ -97,9 +97,10 @@ export default function GameScreen({ navigation }: GameScreenProps) {
       'Game Menu',
       'What would you like to do?',
       [
-        { text: 'New Game', onPress: () => navigation.navigate('Home') },
+        { text: 'Exit Game', onPress: () => navigation.goBack(), style: 'destructive' },
+        { text: 'Rules', onPress: () => navigation.navigate('Rules'), style: 'secondary' },
         { text: 'Settings', onPress: () => navigation.navigate('Settings') },
-        { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+        { text: 'Close', onPress: () => {}, style: 'cancel' },
       ]
     );
   };

@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window');
 interface ModalButton {
   text: string;
   onPress: () => void;
-  style?: 'default' | 'cancel' | 'destructive';
+  style?: 'default' | 'cancel' | 'destructive' | 'secondary';
 }
 
 interface CustomModalProps {
@@ -32,6 +32,8 @@ export default function CustomModal({
         return styles.cancelButton;
       case 'destructive':
         return styles.destructiveButton;
+      case 'secondary':
+        return styles.secondaryButton;
       default:
         return styles.defaultButton;
     }
@@ -43,6 +45,8 @@ export default function CustomModal({
         return styles.cancelButtonText;
       case 'destructive':
         return styles.destructiveButtonText;
+      case 'secondary':
+        return styles.secondaryButtonText;
       default:
         return styles.defaultButtonText;
     }
@@ -57,6 +61,8 @@ export default function CustomModal({
       animationOut="zoomOut"
       backdropOpacity={0.5}
       style={styles.modal}
+      avoidKeyboard={true}
+      useNativeDriver={true}
     >
       <View style={styles.modalContainer}>
         <LinearGradient
@@ -73,7 +79,8 @@ export default function CustomModal({
                 style={[
                   styles.button,
                   getButtonStyle(button.style),
-                  buttons.length === 1 && styles.singleButton
+                  buttons.length === 1 && styles.singleButton,
+                  button.style === 'cancel' && styles.closeButton
                 ]}
                 onPress={() => {
                   button.onPress();
@@ -125,7 +132,7 @@ const styles = StyleSheet.create({
     color: '#2D1B69',
     textAlign: 'center',
     marginBottom: 12,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   message: {
     fontSize: 16,
@@ -136,12 +143,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     gap: 12,
   },
   button: {
-    flex: 1,
+    width: '100%',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -150,12 +156,16 @@ const styles = StyleSheet.create({
     minHeight: 44,
   },
   singleButton: {
-    flex: 0,
+    width: 'auto',
     minWidth: 120,
+    alignSelf: 'center',
+  },
+  closeButton: {
+    marginTop: 16,
   },
   defaultButton: {
-    backgroundColor: '#2D1B69',
-    shadowColor: '#2D1B69',
+    backgroundColor: '#FF6B6B', // Primary color from main menu
+    shadowColor: '#FF6B6B',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -165,8 +175,19 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cancelButton: {
-    backgroundColor: '#6C757D',
-    shadowColor: '#6C757D',
+    backgroundColor: '#95A5A6', // Info color from main menu
+    shadowColor: '#95A5A6',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  secondaryButton: {
+    backgroundColor: '#4ECDC4', // Secondary color from main menu
+    shadowColor: '#4ECDC4',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -176,8 +197,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   destructiveButton: {
-    backgroundColor: '#DC3545',
-    shadowColor: '#DC3545',
+    backgroundColor: '#FF5722', // Danger color from main menu
+    shadowColor: '#FF5722',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -191,12 +212,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   defaultButtonText: {
-    color: '#FFFFFF',
+    color: 'black', // Black text like main menu
   },
   cancelButtonText: {
-    color: '#FFFFFF',
+    color: 'black', // Black text like main menu
+  },
+  secondaryButtonText: {
+    color: 'black', // Black text like main menu
   },
   destructiveButtonText: {
-    color: '#FFFFFF',
+    color: 'black', // Black text like main menu
   },
 });

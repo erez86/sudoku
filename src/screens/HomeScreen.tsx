@@ -40,6 +40,10 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     navigation.navigate('Settings');
   };
 
+  const handleRules = () => {
+    navigation.navigate('Rules');
+  };
+
   const handleAvatarPress = () => {
     navigation.navigate('PlayerStats');
   };
@@ -120,7 +124,17 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         />
 
         <Button
-          title="OPTIONS"
+          title="RULES"
+          onPress={handleRules}
+          variant="success"
+          size="large"
+          icon="book"
+          fullWidth
+          style={styles.menuButton}
+        />
+
+        <Button
+          title="SETTINGS"
           onPress={handleSettings}
           variant="warning"
           size="large"
@@ -169,7 +183,7 @@ const styles = StyleSheet.create({
   loadingText: {
     color: 'black',
     fontSize: 18,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   header: {
     paddingTop: 60,
@@ -185,7 +199,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     letterSpacing: 2,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   menuContainer: {
     flex: 1,

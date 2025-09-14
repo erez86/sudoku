@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   
   // Text styles
   text: {
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
     fontWeight: 'bold',
     textAlign: 'center',
   },

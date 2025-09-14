@@ -57,8 +57,8 @@ export default function SudokuBoard({
             style={[
               styles.cellText,
               {
-                color: cell.isGiven ? '#000' : '#333',
-                fontWeight: cell.isGiven ? 'bold' : 'normal',
+                color: cell.isGiven ? 'black' : 'blue',
+                fontWeight: 'bold',
               },
             ]}
           >
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   cellText: {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'PoiretOne_600Regular',
+    fontFamily: 'Homenaje-Regular',
   },
   notesContainer: {
     flexDirection: 'row',
@@ -130,6 +130,6 @@ const styles = StyleSheet.create({
     width: '33.33%',
     textAlign: 'center',
     lineHeight: 10,
-    fontFamily: 'PoiretOne_400Regular',
+    fontFamily: 'Homenaje-Regular',
   },
 });
